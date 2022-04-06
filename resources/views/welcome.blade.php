@@ -21,10 +21,10 @@
         <script src='./js/app.js'></script>
 
         <script>
-            window.Echo.channel('home')
             .listen('NewMessage', (e) => {
+            window.Echo.channel(e.channel)
                 for (let i = 0; i < e.counts; i++) {
-                console.log("helloo",getRandomDate());
+                console.log(e.message,getRandomDate());
             }
             })
         </script>

@@ -41,6 +41,6 @@ class AddMessages extends Command
     {
         $channel = $this->option('channel');
         $counts = $this->option('counts');
-        NewMessage::dispatch("test",$channel,$counts);
+        NewMessage::dispatch("hello sir",$channel,$counts);
     }
 }

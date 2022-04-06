@@ -36,7 +36,6 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-            $Channel[] = new Channel($this->channel);
-            return $Channel;
+        return new Channel($this->channel);
     }
 }
