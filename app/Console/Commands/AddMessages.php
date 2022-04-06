@@ -13,7 +13,7 @@ class AddMessages extends Command
      *
      * @var string
      */
-    protected $signature = 'wh:add-message {--channel=} {--counts=}';
+    protected $signature = 'wh:add-message {--channel=} {--counts=} {--message=}';
 
     /**
      * The console command description.
@@ -41,6 +41,25 @@ class AddMessages extends Command
     {
         $channel = $this->option('channel');
         $counts = $this->option('counts');
-        NewMessage::dispatch("hello sir",$channel,$counts);
+        $message = $this->option('message');
+        $startTime = date('Y-m-d H:i:s');
+        $this->info("Start Time: ".$startTime);
+        for($i = 0;$i < $counts; $i++){
+            $this->info("======================================");
+            $this->info("index :".($i + 1));
+            NewMessage::dispatch($message,$channel,$counts);
+            $sendTime = date('Y-m-d H:i:s');
+            $this->info("Send Time: ".$sendTime);
+            $interval = strtotime($sendTime) - strtotime($startTime);
+            if($interval > 180){
+                $this->info("Process Exit");
+                exit();
+            } else {
+                $delay = rand(1,5);
+                $this->info("Sleep for delay :".$delay);
+                sleep($delay);
+            }
+            $this->info("======================================");
+        }
     }
 }
