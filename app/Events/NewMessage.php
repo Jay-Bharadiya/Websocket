@@ -38,4 +38,22 @@ class NewMessage implements ShouldBroadcast
     {
         return new Channel($this->channel);
     }
+
+    public function broadcastAs()
+    {
+        return 'NewMessage';
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'message' => $this->message,
+            'static'=> "This is static value"
+        ];
+    }
+
+    public function broadcastWhen()
+    {
+        return true;
+    }
 }
