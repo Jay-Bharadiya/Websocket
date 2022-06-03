@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Events\NewMessage;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Event;
+use React\Socket\ConnectionInterface;
 
 class AddMessages extends Command
 {
@@ -47,7 +48,9 @@ class AddMessages extends Command
         for($i = 0;$i < $counts; $i++){
             $this->info("======================================");
             $this->info("index :".($i + 1));
-            NewMessage::dispatch($message,$channel,$counts);
+            
+            // NewMessage::dispatch($message,$channel,$counts);
+            event(new NewMessage($message,$channel,$counts));
             $sendTime = date('Y-m-d H:i:s');
             $this->info("Send Time: ".$sendTime);
             $interval = strtotime($sendTime) - strtotime($startTime);

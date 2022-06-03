@@ -2,10 +2,17 @@
 
 namespace App\Providers;
 
+use App\Listeners\SendWebSocketConnection;
+use App\Listeners\SendWebSocketDisconnection;
+use App\Listeners\SendWebSocketChannelSubscribed;
+use App\Listeners\SendWebSocketChannelUnubscribed;
+use BeyondCode\LaravelWebSockets\Events\NewConnection;
+use BeyondCode\LaravelWebSockets\Events\SubscribedToChannel;
+use BeyondCode\LaravelWebSockets\Events\UnsubscribedFromChannel;
+use BeyondCode\LaravelWebSockets\Events\ConnectionClosed;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -18,6 +25,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        NewConnection::class => [
+            SendWebSocketConnection::class,
+        ],
+        SubscribedToChannel::class => [
+            SendWebSocketChannelSubscribed::class,
+        ],
+        UnsubscribedFromChannel::class => [
+            SendWebSocketChannelUnubscribed::class,
+        ],
+        ConnectionClosed::class => [
+            SendWebSocketDisconnection::class,
+        ],
     ];
 
     /**
@@ -27,6 +46,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // 
     }
 }
